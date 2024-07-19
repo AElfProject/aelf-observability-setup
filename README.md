@@ -16,7 +16,7 @@ An OpenTelemetry Observability Environment including Otel Collector and Observab
 Jaeger: http://localhost:16686/  
 Prometheus: http://localhost:9090/  
 Grafana: http://localhost:3000/  
-OpenTelemetry Collector: http://localhost:4317/
+OpenTelemetry Collector: http://localhost:4315/
 
 ## Getting Started
 
