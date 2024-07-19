@@ -1,21 +1,21 @@
-# Project Name
+# AElf Observability Environment
 
 An OpenTelemetry Observability Environment including Otel Collector and Observability Backend.
 
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
-  - [Subsection 1](#subsection-1)
-- [Examples](#examples)
-  - [Example 1](#example-1)
+  - [Installation](#installation)
+  - [Start Up](#start-up)
+  - [Tear Down](#tear-down)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## About The Project
 
-An OpenTelemetry Observability Environment including Otel Collector and Observability Backend.
-Jaeger: http://localhost:16686/
-Prometheus: http://localhost:9090/
-Grafana: http://localhost:3000/
+An OpenTelemetry Observability Environment including Otel Collector and Observability Backend.  
+Jaeger: http://localhost:16686/  
+Prometheus: http://localhost:9090/  
+Grafana: http://localhost:3000/  
 
 ## Getting Started
 
