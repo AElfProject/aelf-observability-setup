@@ -27,6 +27,11 @@ exporters:
   file:
     path: /etc/output/logs.json
 
+  elasticsearch: 
+    endpoint: "http://elasticsearch:9200"
+    tls:
+      insecure: true
+
 # Configure processors (batch, sampling, filtering, hashing sensitive data, etc.)
 # https://opentelemetry.io/docs/collector/configuration/#processors
 processors:
@@ -50,4 +55,4 @@ service:
     logs:
       receivers: [otlp]
       processors: []
-      exporters: [logging, file, otlphttp/jaeger]
+      exporters: [logging, file, elasticsearch]
