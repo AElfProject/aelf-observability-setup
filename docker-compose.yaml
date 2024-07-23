@@ -3,6 +3,50 @@ version: "2"
 services:
   # back-ends
 
+  # http://localhost:9200/
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.0-7b366504-SNAPSHOT
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=500ms"]
+      retries: 300
+      interval: 1s
+    environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "network.host=0.0.0.0"
+      - "transport.host=127.0.0.1"
+      - "http.host=0.0.0.0"
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "discovery.type=single-node"
+      - "xpack.security.authc.anonymous.roles=remote_monitoring_collector"
+      - "xpack.security.authc.realms.file.file1.order=0"
+      - "xpack.security.authc.realms.native.native1.order=1"
+      - "xpack.security.enabled=false"
+      - "xpack.license.self_generated.type=trial"
+      - "xpack.security.authc.token.enabled=false"
+      - "xpack.security.authc.api_key.enabled=false"
+      - "action.destructive_requires_name=false"
+    ports:
+      - "9200:9200"
+
+  # http://localhost:5601/
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.16.0-7b366504-SNAPSHOT
+    ports:
+      - 5601:5601
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:5601/api/status | grep -q 'All services are available'"]
+      retries: 300
+      interval: 1s
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+      ELASTICSEARCH_USERNAME: "${KIBANA_ES_USER:-kibana_system_user}"
+      ELASTICSEARCH_PASSWORD: "${KIBANA_ES_PASS:-changeme}"
+      XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+    depends_on:
+      elasticsearch: { condition: service_healthy }
+    volumes:
+      - "./kibana.yaml:/usr/share/kibana/config/kibana.yml"
+
   # http://localhost:16686/
   jaeger-all-in-one:
     image: jaegertracing/all-in-one:1.46
@@ -23,7 +67,7 @@ services:
 
   # OpenTelemetry Collector
   otel-collector:
-    image: otel/opentelemetry-collector:latest
+    image: otel/opentelemetry-collector-contrib:latest
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -33,6 +77,10 @@ services:
       - "8889:8889"   # Prometheus exporter metrics
       - "4315:4315"   # OTLP gRPC receiver
       - "4316:4316"   # OTLP HTTP receiver
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
 
   #Grafana: http://localhost:3000/
   grafana:
