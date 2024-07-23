@@ -13,10 +13,12 @@ An OpenTelemetry Observability Environment including Otel Collector and Observab
 ## About The Project
 
 An OpenTelemetry Observability Environment including Otel Collector and Observability Backend.  
-Jaeger: http://localhost:16686/  
-Prometheus: http://localhost:9090/  
-Grafana: http://localhost:3000/  
-OpenTelemetry Collector: http://localhost:4315/
+**Jaeger**: http://localhost:16686/  
+**Prometheus**: http://localhost:9090/  
+**Grafana**: http://localhost:3000/  
+**OpenTelemetry Collector**: http://localhost:4315/  
+**Kibana**: http://localhost:5601/  
+**ElasticSearch**: http://localhost:9200/  
 
 ## Getting Started
 
