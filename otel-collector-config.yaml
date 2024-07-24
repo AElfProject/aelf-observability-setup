@@ -31,6 +31,8 @@ exporters:
     endpoint: "http://elasticsearch:9200"
     tls:
       insecure: true
+    mapping:
+      mode: raw
 
 # Configure processors (batch, sampling, filtering, hashing sensitive data, etc.)
 # https://opentelemetry.io/docs/collector/configuration/#processors
@@ -55,4 +57,4 @@ service:
     logs:
       receivers: [otlp]
       processors: []
-      exporters: [logging, file, elasticsearch]
+      exporters: [logging, elasticsearch]
